@@ -23,6 +23,9 @@ class Main_Player :
             self.head = new_song
             self.temp = new_song
         else :
+            self.temp = self.head
+            while ((self.temp).next != None):
+                self.temp = (self.temp).next
             (self.temp).next = new_song
             new_song.prev = self.temp
         self.temp = new_song
@@ -56,9 +59,28 @@ class Main_Player :
                 self.temp = (self.temp).next
                 count += 1
     
+    def delete_head_song (self):
+        self.temp = self.head
+        
+        if ((self.head) == None):
+            print ("\nPlaylist is empty !")
+        else :
+            self.head = (self.head).next
+            if ((self.head) != None):
+                (self.head).prev = None
+        self.temp = None
+                
+        
     def delete_song (self, number):
         self.temp = self.head
         current_count = 1
+        
+        if ((self.head) == None):
+            print ("\nPlaylist is already empty !")
+            return
+            
+        if ((self.head).next == None and number == 1):
+            return self.delete_head_song ()
         
         if ((self.temp) == None):
             print ("\nSong %s not found" %((self.temp).title))
@@ -70,10 +92,12 @@ class Main_Player :
         if (number == current_count):
             if (self.temp == self.head):
                 self.head = (self.temp).next
+                
             if ((self.temp).next != None):
                 ((self.temp).next).prev = (self.temp).prev
             if ((self.temp).next == None):
                 ((self.temp).prev).next = None
+                
             if ((self.temp).prev != None):
                 ((self.temp).prev).next = (self.temp).next
             if ((self.temp).prev == None):
@@ -88,7 +112,7 @@ class Main_Player :
         else :
             self.temp = None
     
-    def play_song (self, number):
+    def play_specific_song (self, number):
         self.temp = self.head
         song_num = 1
         
@@ -159,14 +183,60 @@ class Main_Player :
 
 
 my_playlist = Main_Player ()
-#write your own code here
-'''
-my_playlist.add_song ("Closer", "Chainsmokers")
-my_playlist.add_song ("Me And The Rhythm", "Selena Gomez")
-my_playlist.add_song ("Love Yourself", "Justin Bieber")
-my_playlist.add_song ("Shape Of You", "Ed Sheran")
-my_playlist.add_song ("Steal My Girl", "One Direction")
-my_playlist.add_song ("Night Changes", "One Direction")
-my_playlist.add_song ("Espresso", "Sabrina Carpenter")
-my_playlist.show_playlist ()
-'''
+is_first_run = True
+
+while True:
+    if (is_first_run == False):
+        print ("\n")
+    is_first_run = False
+    
+    print ("1. Add Song to the playlist."
+           "\n2. Show playlist."
+           "\n3. Play all songs."
+           "\n4. Play a specific song."
+           "\n5. Play next song."
+           "\n6. Play previous song."
+           "\n7. Delete a song from the playlist."
+           "\n8. Exit.")
+    print ("\nPlease enter your choice: ", end="")
+    choice = str (input ())
+    
+    if (choice == "1"):
+        print ("Enter the song title: ", end="")
+        song_title = str (input ().strip ())
+        print ("Enter the artist's name: ", end="")
+        song_artist = str (input ().strip ())
+        my_playlist.add_song (song_title, song_artist)
+    
+    elif (choice == "2"):
+        my_playlist.show_playlist ()
+    
+    elif (choice == "3"):
+        my_playlist.play_all_songs ()
+    
+    elif (choice == "4"):
+        try:
+            print ("Enter the song number to play: ", end="")
+            song_num = int (input ())
+            my_playlist.play_specific_song (song_num)
+        except ValueError:
+            print ("\nInvalid input! Please type a number.")
+    
+    elif (choice == "5"):
+        my_playlist.play_next_song ()
+    
+    elif (choice == "6"):
+        my_playlist.play_prev_song ()
+        
+    elif (choice == "7"):
+        try:
+            print ("Enter the song number to delete: ", end="")
+            song_num = int (input ())
+            my_playlist.delete_song (song_num)
+        except ValueError:
+            print ("\nInvalid input! Please type a number.")
+    
+    elif (choice == "8"):
+        print ("Exiting the media player!")
+        exit (0)
+        break
