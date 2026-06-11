@@ -31,7 +31,7 @@ class Main_Player :
         self.temp = new_song
         print ("Song added to the playlist")
     
-    def show_playlist (self):
+    def show_playlist (self, prefix=""):
         self.temp = self.head
         count = 1
         
@@ -51,11 +51,11 @@ class Main_Player :
             title_width = max_title_len + 4
             artist_width = max_artist_len + 4
             format_template = "{:<6}{:<" + str(title_width) + "}{:<" + str(artist_width) + "}"
-            print(format_template.format("No.", "Title", "Artist"))
+            print(prefix + format_template.format("No.", "Title", "Artist"))
             
             self.temp = self.head
             while ((self.temp) != None):
-                print(format_template.format(count, (self.temp).title, (self.temp).artist))
+                print(prefix + format_template.format(count, (self.temp).title, (self.temp).artist))
                 self.temp = (self.temp).next
                 count += 1
     
@@ -230,6 +230,8 @@ while True:
         
     elif (choice == "7"):
         try:
+            print("\n\tSelect a song to delete:")
+            my_playlist.show_playlist (prefix = "\t")
             print ("Enter the song number to delete: ", end="")
             song_num = int (input ())
             my_playlist.delete_song (song_num)
