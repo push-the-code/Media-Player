@@ -153,7 +153,7 @@ class Main_Player :
         
         if ((self.current_song) == None):
             self.current_song = self.head
-            print ("\nPlaying song '%s' by - '%s'" %(((self.temp).title), ((self.temp).artist)))
+            print ("\nPlaying song '%s' by - '%s'" %(((self.current_song).title), ((self.current_song).artist)))
             
         while ((self.current_song) != None):
             if ((self.current_song).next == None):
@@ -171,7 +171,7 @@ class Main_Player :
         
         if ((self.current_song) == None):
             self.current_song = self.head
-            print ("\nPlaying song '%s' by - '%s'" %(((self.temp).title), ((self.temp).artist)))
+            print ("\nPlaying song '%s' by - '%s'" %(((self.current_song).title), ((self.current_song).artist)))
         
         while ((self.current_song) != None):
             if ((self.current_song).prev == None):
